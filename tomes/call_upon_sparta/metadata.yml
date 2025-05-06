@@ -1,0 +1,17 @@
+name: Call Upon Sparta
+description: Summons 300 spartans with root access
+author: BlueishSapphire
+tactic: DEFENSE_EVASION
+paramdefs:
+  - name: username_fmt
+    label: Username Format
+    type: string
+    placeholder: spartan%(num)03d
+  - name: user_count
+    label: User Count
+    type: int
+    placeholder: '300'
+  - name: wordlist_file
+    label: Wordlist File
+    type: string
+    placeholder: spartans.txt

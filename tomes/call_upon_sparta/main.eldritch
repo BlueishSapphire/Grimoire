@@ -1,0 +1,50 @@
+username_fmt = input_params['username_fmt']
+user_count = int(input_params['user_count'])
+wordlist_file = input_params['wordlist_file]
+
+
+should_set_rand_int = '{rand_int}' in username_fmt
+should_set_rand_word = '{rand_word}' in username_fmt
+should_set_word = '{word}' in username_fmt
+should_set_num = '{num}' in username_fmt
+
+
+if should_set_rand_int or should_set_rand_word:
+    rand_ints = [random.int(0, 0x7fffffff) for i in range(user_count)]
+
+if should_set_word or should_set_rand_word:
+    if wordlist_file in assets.list():
+        wordlist = assets.read(wordlist_file).splitlines()
+    else:
+        wordlist = file.read('./assets/' + wordlist_file).splitlines()
+
+
+def windows_create_user(name: str) -> bool:
+    print("create user " + name)
+    return True
+
+def posix_create_user(name: str) -> bool:
+    print("create user " + name)
+    return True
+
+
+if sys.is_windows():
+    create_user = windows_create_user
+else:
+    create_user = posix_create_user
+
+
+print("summoning " + str(user_count) + " new users")
+new_users = 0
+for i in range(10 * user_count):
+    fmt = {}
+    if should_set_num:       fmt['num'] = i
+    if should_set_word:      fmt['word'] = wordlist[i % len(wordlist)]
+    if should_set_rand_int:  fmt['rand_int'] = rand_ints[i]
+    if should_set_rand_word: fmt['rand_word'] = wordlist[rand_ints[i] % len(wordlist)]
+    username = username_fmt.format(**fmt)
+    if create_user(username):
+        new_users += 1
+        report.user_password(username, username)
+        if new_users >= user_count: break
+
